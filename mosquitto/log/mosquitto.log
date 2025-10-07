@@ -1125,3 +1125,15 @@ To fix this, use `chmod 0700 /mosquitto/config/passwd`.
 1759779098: Client nodered3f4d36b1fd8eaa4f disconnected.
 1759779098: New connection from 172.20.0.5:49618 on port 1883.
 1759779098: New client connected from 172.20.0.5:49618 as noderedb2ac2d829bc340ba (p2, c1, k60, u'aluno').
+1759788763: mosquitto version 2.0.22 starting
+1759788763: Config loaded from /mosquitto/config/mosquitto.conf.
+1759788763: Warning: File /mosquitto/config/passwd has world readable permissions. Future versions will refuse to load this file.
+To fix this, use `chmod 0700 /mosquitto/config/passwd`.
+1759788763: Opening ipv4 listen socket on port 1883.
+1759788763: Opening websockets listen socket on port 9001.
+1759788763: mosquitto version 2.0.22 running
+1759788769: New connection from 172.18.0.6:53144 on port 1883.
+1759788769: New client connected from 172.18.0.6:53144 as noderedb1b96b2916984d72 (p2, c1, k60, u'aluno').
+1759789705: New client connected from 172.18.0.1:47252 as pub-8da52c25176a38 (p2, c1, k60, u'aluno').
+1759789709: New client connected from 172.18.0.1:54710 as sub-8b5fa5055ebd68 (p2, c1, k60, u'aluno').
+1759790564: Saving in-memory database to /mosquitto/data//mosquitto.db.

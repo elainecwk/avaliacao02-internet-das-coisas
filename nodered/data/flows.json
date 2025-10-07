@@ -1,0 +1,234 @@
+[
+    {
+        "id": "911ff5119b793c87",
+        "type": "tab",
+        "label": "Fluxo 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "b2b98e17d944e2db",
+        "type": "mqtt-broker",
+        "name": "Broker",
+        "broker": "mosquitto",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "3c942662c3d661b7",
+        "type": "mqtt-broker",
+        "name": "Broker",
+        "broker": "mosquitto",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "52b9974231a40fe7",
+        "type": "mongodb4-client",
+        "name": "ConecttionMongoDB",
+        "protocol": "mongodb",
+        "hostname": "mongo",
+        "port": "27017",
+        "dbName": "IOT-AVA",
+        "appName": "",
+        "authSource": "",
+        "authMechanism": "DEFAULT",
+        "tls": false,
+        "tlsCAFile": "",
+        "tlsCertificateKeyFile": "",
+        "tlsInsecure": false,
+        "connectTimeoutMS": "30000",
+        "socketTimeoutMS": "0",
+        "minPoolSize": "0",
+        "maxPoolSize": "100",
+        "maxIdleTimeMS": "0",
+        "uri": "",
+        "advanced": "{}",
+        "uriTabActive": "tab-uri-simple"
+    },
+    {
+        "id": "23e598a1272df7de",
+        "type": "uuid",
+        "z": "911ff5119b793c87",
+        "uuidVersion": "v4",
+        "namespaceType": "",
+        "namespace": "",
+        "namespaceCustom": "",
+        "name": "",
+        "field": "payload._id",
+        "fieldType": "msg",
+        "x": 270,
+        "y": 140,
+        "wires": [
+            [
+                "f3d24a23a51413d3"
+            ]
+        ]
+    },
+    {
+        "id": "f3d24a23a51413d3",
+        "type": "function",
+        "z": "911ff5119b793c87",
+        "name": "function 1",
+        "func": "\nconst UUID = msg.payload.device_id;\nif(!UUID) return null;\n\nmsg.collection = \"device\";\nmsg.operation = \"updateOne\";\n\nconst update = {\n$set:  {\n  _id: UUID,\n  device_id: \"ESP32-001\",\n  model: \"ESP32-001\",\n  firmware: \"v1.0.0\",\n  ip_address: \"192.168.0.1\",\n  location: \"Sala de Armazenamento\",\n  created_at: \"10-10-2025\",\n  updated_at: \"10-10-2025\",\n  light: \"on\", // \"on\" ou \"off\"\n  raw: \"Dados com JSON.stringfy()\"\n},\n$setOnInsert: {created_at: new Date(), _id:msg.payload.device_id}\n}\n\nmsg.payload = [{ device_id: UUID }, update, { upsert: true }];\n\n\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 460,
+        "y": 140,
+        "wires": [
+            [
+                "c6229b0093fe4edd"
+            ]
+        ]
+    },
+    {
+        "id": "c6229b0093fe4edd",
+        "type": "mongodb4",
+        "z": "911ff5119b793c87",
+        "clientNode": "52b9974231a40fe7",
+        "mode": "collection",
+        "collection": "",
+        "operation": "",
+        "output": "toArray",
+        "maxTimeMS": "0",
+        "handleDocId": false,
+        "name": "Device",
+        "x": 770,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "028c985783e9afe7",
+        "type": "uuid",
+        "z": "911ff5119b793c87",
+        "uuidVersion": "v4",
+        "namespaceType": "",
+        "namespace": "",
+        "namespaceCustom": "",
+        "name": "",
+        "field": "payload._id",
+        "fieldType": "msg",
+        "x": 370,
+        "y": 300,
+        "wires": [
+            [
+                "604ccf5234c7d274"
+            ]
+        ]
+    },
+    {
+        "id": "604ccf5234c7d274",
+        "type": "function",
+        "z": "911ff5119b793c87",
+        "name": "function 2",
+        "func": "const temperature = !!msg.temperature;\nlet data = \n{\n  device_id: \"ESP32-001\",\n  data: {\n    temperature: 5.0,\n    unit: \"ºC\"\n  },\n  created_at: \"10-10-2025\",\n  updated_at: \"10-10-2025\",\n  raw: \"Dados com JSON.stringfy()\"\n}\n\n\n\n\n\n\nconst msgTemperature={\n\ncollection: 'devices',\noperation: 'updateOne',\n\n\n}\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 540,
+        "y": 300,
+        "wires": [
+            [
+                "c6229b0093fe4edd"
+            ]
+        ]
+    },
+    {
+        "id": "fd5b01f6b6b6a276",
+        "type": "mqtt in",
+        "z": "911ff5119b793c87",
+        "name": "",
+        "topic": "device/+/info",
+        "qos": "1",
+        "datatype": "auto-detect",
+        "broker": "b2b98e17d944e2db",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 90,
+        "y": 140,
+        "wires": [
+            [
+                "23e598a1272df7de"
+            ]
+        ]
+    },
+    {
+        "id": "fd47ddbb53755424",
+        "type": "mqtt in",
+        "z": "911ff5119b793c87",
+        "name": "",
+        "topic": "device/+/status/temperatura",
+        "qos": "1",
+        "datatype": "auto-detect",
+        "broker": "b2b98e17d944e2db",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 140,
+        "y": 300,
+        "wires": [
+            [
+                "028c985783e9afe7"
+            ]
+        ]
+    }
+]
